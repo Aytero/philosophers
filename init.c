@@ -1,26 +1,21 @@
-
-void	*print_message()
-{
-	phread_mutex_lock(&mutex);
-
-	//
-
-	phread_mutex_unlock(&mutex);
-	return (NULL);
-}
+#include "philo.h"
 
 int	init_mutex()
+{
+	pthread_mutex_init(&, NULL);
+}
 
 int	init_philo(t_vars *vars)
 {
 	int		i;
 
-	i = 0;
-	while (i < vars->philo_nbr)
+	i = -1;
+	while (++i < vars->philo_nbr)
 	{
-		//memset();
-		state->philo[i].left_fork = i;
-		state->philo[i].right_fork = (i + 1) % vars->philo_nbr;
+		memset(vars->philo[i], 0, sizeof(t_philo));
+		vars->philo[i].forks[LFORK] = i;
+		vars->philo[i].forks[RFORK] = (i + 1) % vars->philo_nbr;
+		vars->philo[i].position = i;
 	}
 }
 
