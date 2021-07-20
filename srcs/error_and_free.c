@@ -5,11 +5,22 @@ int	free_mem(t_vars *vars)
 	int		i;
 
 	i = -1;
-	while (++i < vars->philo_nbr)
+	if (vars->forks_mutex)
 	{
-		pthread_mutex_destroy(&vars->philo[i].eat_mutex);
-		pthread_mutex_destroy(&vars->forks_mutex[i]);
+		while (++i < vars->philo_nbr)
+			pthread_mutex_destroy(&vars->forks_mutex[i]);
+		free(vars->forks_mutex);
 	}
+	i = -1;
+	if (vars->philo)
+	{
+		while (++i < vars->philo_nbr)
+			pthread_mutex_destroy(&vars->philo[i].eat_mutex);
+		free(vars->philo);
+	}
+	if (vars->each_ate)
+		free(vars->each_ate);
+	//if
 	pthread_mutex_destroy(&vars->write_mutex);
 	//pthread_mutex_destroy(&vars->death_mutex);
 	return (1);

@@ -11,10 +11,12 @@ static void	take_forks(t_philo *philo)
 static void	eat(t_philo *philo)
 {	
 	pthread_mutex_lock(&philo->eat_mutex);
+	philo->time_when_done = get_time() + philo->vars->time_to_die;
 	write_message(philo->vars, philo->position, IS_EATING);
 	philo->flag_eating = 1;
-	philo->time_when_done = get_time() + philo->vars->time_to_die;
 	usleep(philo->vars->time_to_eat * 1000);
+	if (philo->vars->times_must_eat > 0)
+		philo->vars->each_ate[philo->position - 1] += 1;
 	philo->flag_eating = 0;
 	pthread_mutex_unlock(&philo->eat_mutex);
 }
@@ -23,8 +25,6 @@ static void	release_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->vars->forks_mutex[philo->forks[RFORK]]);
 	pthread_mutex_unlock(&philo->vars->forks_mutex[philo->forks[LFORK]]);
-	write_message(philo->vars, philo->position, IS_SLEEPING);
-	usleep(philo->vars->time_to_sleep * 1000);
 }
 
 void	*do_routine(void *ptr)
@@ -32,11 +32,18 @@ void	*do_routine(void *ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
+	philo->time_when_done = get_time() + philo->vars->time_to_die;
 	while (1)
 	{
 		take_forks(philo);
 		eat(philo);
 		release_forks(philo);
+		//printf("	%d ate %d times\n", philo->position, philo->vars->each_ate[philo->position - 1]);
+		if (philo->vars->times_must_eat > 0
+				&& philo->vars->each_ate[philo->position - 1] == philo->vars->times_must_eat)
+			break ;
+		write_message(philo->vars, philo->position, IS_SLEEPING);
+		usleep(philo->vars->time_to_sleep * 1000);
 		write_message(philo->vars, philo->position, IS_THINKING);
 	}
 	return ((void *)0);

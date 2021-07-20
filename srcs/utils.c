@@ -1,15 +1,12 @@
 #include "philo.h"
 
-
 uint64_t	get_time(void)
 {
 	static struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * (uint64_t)1000 + tv.tv_usec / 1000);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
-
-//put nbr fd; put str fd
 
 size_t	ft_strlen(const char *s)
 {

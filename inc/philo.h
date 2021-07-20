@@ -30,8 +30,11 @@ typedef struct s_philo
 typedef struct s_vars
 {
 	int				philo_nbr;
+	int				eat_done;
+	int				*each_ate;
 	uint64_t		time_to_die;
 	uint64_t		time_to_eat;
+	//unsigned long long	time_to_eat;
 	uint64_t		time_to_sleep;
 	int				times_must_eat;
 	uint64_t		time_start;

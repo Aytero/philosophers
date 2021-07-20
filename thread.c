@@ -147,7 +147,7 @@ int	main()
 	vars.philo[0].vars = &vars;
 	vars.philo[1].vars = &vars;
 	vars.time_to_eat = 100;
-	vars.time_to_die = 150;
+	vars.time_to_die = 550;
 	vars.time_to_sleep = 200;
 
 	pthread_mutex_init(&vars.philo[0].m, NULL);
