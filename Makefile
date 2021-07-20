@@ -2,7 +2,7 @@ NAME = philo
 
 HEADER = ./inc/
 
-SRCS = 
+SRCS = philo.c init.c do_routine.c write_message.c error_and_free.c utils.c
 
 OBJSDIR = ./objs
 SRCSDIR = ./srcs
