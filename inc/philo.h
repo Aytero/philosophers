@@ -31,6 +31,8 @@ typedef struct s_vars
 {
 	int				philo_nbr;
 	int				eat_done;
+	int				flag_death;
+	int				flag_done;
 	int				*each_ate;
 	uint64_t		time_to_die;
 	uint64_t		time_to_eat;

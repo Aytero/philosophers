@@ -34,6 +34,7 @@ void	monitor_status(t_vars *vars)
 			//pthread_mutex_lock(&vars->philo[i].eat_mutex);
 			if (!vars->philo[i].flag_eating && get_time() > vars->philo[i].time_when_done)
 			{
+				vars->flag_death = 1;
 				write_message(vars, vars->philo[i].position, HAS_DIED);
 				
 				//pthread_mutex_unlock(&vars->philo[i].eat_mutex);
@@ -44,6 +45,7 @@ void	monitor_status(t_vars *vars)
 				eat_cntr++;
 			if (eat_cntr >= vars->philo_nbr)
 			{	
+				vars->flag_done = 1;
 				//pthread_mutex_unlock(&vars->philo[i].eat_mutex);
 				return ;
 			}
