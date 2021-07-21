@@ -1,13 +1,16 @@
-
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <pthread.h>
+# include <semaphore.h>
+# include <signal.h>
 # include <sys/time.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
 
 # define LFORK 0
 # define RFORK 1
@@ -19,39 +22,39 @@
 
 typedef struct s_philo
 {
-	int				flag_eating;
+	int				eat_cntr;
 	int				position;
-	int				forks[2];
+	pthread_t		wid;
+	pid_t			pid;
 	uint64_t		time_when_done;
-	pthread_mutex_t	eat_mutex;
 	struct s_vars	*vars;
 }					t_philo;
 
 typedef struct s_vars
 {
 	int				philo_nbr;
-	int				eat_done;
-	int				flag_death;
-	int				flag_done;
-	int				*each_ate;
+	int				eat_cntr;
+	int				flag_death;//
+	int				flag_done;//
+	int				*each_ate;//
 	uint64_t		time_to_die;
 	uint64_t		time_to_eat;
-	//unsigned long long	time_to_eat;
 	uint64_t		time_to_sleep;
 	int				times_must_eat;
 	uint64_t		time_start;
-	pthread_mutex_t	*forks_mutex;
-	pthread_mutex_t	write_mutex;
-//	pthread_mutex_t	death_mutex;
+	sem_t			*forks_sem;
+	sem_t			*write_sem;
+	sem_t			*death_sem;
+	sem_t			*eat_sem;
 	t_philo			*philo;
 }					t_vars;
 
+int					kill_processes(t_vars *vars);
 int					free_mem(t_vars *vars);
 int					write_error(char *str, int len);
 int					exit_error(char *str);
 void				write_message(t_vars *vars, int position, char *str);
-void				*do_routine(void *ptr);
-void				monitor_status(t_vars *vars);
+int					do_routine(t_philo *philo);
 int					execute(t_vars *vars);
 int					init(int argc, char **argv, t_vars *vars);
 size_t				ft_strlen(const char *s);
