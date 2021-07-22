@@ -10,24 +10,19 @@ static void	take_forks(t_philo *philo)
 
 static void	eat(t_philo *philo)
 {	
-	uint64_t	time_tmp;
-
+	philo->flag_eating = 1;
 	philo->time_when_done = get_time() + philo->vars->time_to_die;
 	write_message(philo->vars, philo->position, IS_EATING);
-	//philo->flag_eating = 1;
-	time_tmp = get_time() + philo->vars->time_to_eat;
-	while (get_time() <= time_tmp)
-		usleep(100);
+	usleep_divided(get_time() + philo->vars->time_to_eat);
 	if (philo->vars->times_must_eat)
 		philo->vars->each_ate[philo->position - 1] += 1;
-	//philo->flag_eating = 0;
 	pthread_mutex_unlock(&philo->vars->forks_mutex[philo->forks[RFORK]]);
 	pthread_mutex_unlock(&philo->vars->forks_mutex[philo->forks[LFORK]]);
+	philo->flag_eating = 0;
 }
 
 void	*do_routine(void *ptr)
 {
-	uint64_t	time_tmp;
 	t_philo		*philo;
 
 	philo = (t_philo *)ptr;
@@ -43,9 +38,7 @@ void	*do_routine(void *ptr)
 			== philo->vars->times_must_eat)
 			break ;
 		write_message(philo->vars, philo->position, IS_SLEEPING);
-		time_tmp = get_time() + philo->vars->time_to_sleep;
-		while (get_time() <= time_tmp)
-			usleep(100);
+		usleep_divided(get_time() + philo->vars->time_to_sleep);
 		write_message(philo->vars, philo->position, IS_THINKING);
 	}
 	return ((void *)0);

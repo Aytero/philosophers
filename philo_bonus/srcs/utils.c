@@ -1,23 +1,17 @@
 #include "philo_bonus.h"
 
-uint64_t	get_time(void)
+void	usleep_divided(unsigned long long to_sleep)
+{
+	while (get_time() <= to_sleep)
+		usleep(100);
+}
+
+unsigned long long	get_time(void)
 {
 	static struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	int	len;
-
-	if (!s)
-		return (0);
-	len = 0;
-	while (s[len] != '\0')
-		len++;
-	return (len);
 }
 
 int	ft_atoi(const char *str)

@@ -27,6 +27,6 @@ int	write_error(char *str, int len)
 
 int	exit_error(char *str)
 {
-	str && write(1, str, ft_strlen(str));
+	str && printf("%s\n", str);
 	exit(0);
 }

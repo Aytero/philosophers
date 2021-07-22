@@ -1,6 +1,12 @@
 #include "philo.h"
 
-uint64_t	get_time(void)
+void	usleep_divided(unsigned long long to_sleep)
+{
+	while (get_time() <= to_sleep)
+		usleep(100);
+}
+
+unsigned long long	get_time(void)
 {
 	static struct timeval	tv;
 

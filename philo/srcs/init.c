@@ -43,6 +43,8 @@ int	init(int argc, char **argv, t_vars *vars)
 	if (argc == 6)
 	{
 		vars->times_must_eat = ft_atoi(argv[5]);
+		if (vars->times_must_eat <= 0)
+			return (write_error("Invalid arguments\n", 18));
 		vars->each_ate = malloc(sizeof(int) * vars->philo_nbr);
 		if (!vars->each_ate)
 			return (0);

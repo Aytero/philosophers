@@ -4,13 +4,13 @@
 #define RESET "\033[0m"
 #define HBLU "\e[0;94m"
 
-void	write_message(t_vars *vars, int position, char *str)
+void	write_message(t_vars *vars, int position, char *str, int flag_death)
 {
+	sem_wait(vars->write_death_sem);
 	sem_wait(vars->write_sem);
-	//sem_wait(vars->death_sem);
 	printf("%-8llu "HBLU"%d"RESET" %s", get_time() - vars->time_start,
 		position, str);
-	//if (!vars->flag_death)
-	//	sem_post(vars->write_sem);
+	if (!flag_death)
+		sem_post(vars->write_death_sem);
 	sem_post(vars->write_sem);
 }

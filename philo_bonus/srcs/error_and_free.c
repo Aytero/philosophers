@@ -2,15 +2,13 @@
 
 int	free_mem(t_vars *vars)
 {
-	//sem_close();
 	sem_unlink("/forks_sem");
 	sem_unlink("/write_sem");
+	sem_unlink("/write_death_sem");
 	sem_unlink("/death_sem");
 	sem_unlink("/eat_sem");
 	if (vars->philo)
 		free(vars->philo);
-	if (vars->each_ate)
-		free(vars->each_ate);
 	return (1);
 }
 
@@ -33,6 +31,6 @@ int	write_error(char *str, int len)
 
 int	exit_error(char *str)
 {
-	str && write(1, str, ft_strlen(str));
-	exit(0);
+	str && printf("%s\n", str);
+	exit(1);
 }
