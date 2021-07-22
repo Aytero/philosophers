@@ -4,8 +4,8 @@ int	execute(t_vars *vars)
 {
 	int		i;
 
-	vars->time_start = get_time();
 	i = -1;
+	vars->time_start = get_time();
 	while (++i < vars->philo_nbr)
 	{
 		vars->philo[i].pid = fork();

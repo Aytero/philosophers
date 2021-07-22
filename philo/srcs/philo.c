@@ -10,8 +10,7 @@ void	monitor_status(t_vars *vars)
 		i = -1;
 		while (++i < vars->philo_nbr)
 		{
-			if (!vars->philo[i].flag_eating && get_time()
-				> vars->philo[i].time_when_done)
+			if (get_time() > vars->philo[i].time_when_done)
 			{
 				vars->flag_death = 1;
 				write_message(vars, vars->philo[i].position, HAS_DIED);
@@ -41,7 +40,8 @@ int	execute(t_vars *vars)
 		if (pthread_create(&id, NULL, do_routine, &vars->philo[i]) != 0)
 			return (0);
 		pthread_detach(id);
-		(i % 2 == 0) && usleep(50);
+		usleep(50);
+		//(i % 2 == 0) && usleep(50);
 	}
 	return (1);
 }
