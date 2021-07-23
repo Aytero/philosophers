@@ -50,9 +50,12 @@ int	main(int argc, char **argv)
 {
 	t_vars	vars;
 
-	(argc < 5 || argc > 6) && exit_error("Invalid number of arguments");
-	init(argc, argv, &vars) || (free_mem(&vars) && exit_error(NULL));
-	execute(&vars) || (free_mem(&vars) && exit_error("Pthread error"));
+	if (argc < 5 || argc > 6)
+		return (exit_error("Invalid number of arguments"));
+	if (!init(argc, argv, &vars))
+		return ((free_mem(&vars) && exit_error(NULL)));
+	if (!execute(&vars))
+		return ((free_mem(&vars) && exit_error("Pthread error")));
 	usleep(50);
 	monitor_status(&vars);
 	free_mem(&vars);
